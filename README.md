@@ -4,7 +4,7 @@ Se presenta proyecto semestral de laboratorio de la asignatura **"Paradigmas de 
 
 ## Representación gráfica de TDAs (Tipos de datos abstractos)
 
-![Representación TDAs](https://github.com/Javieratapiab/laboratorio-paradigmas-stackoverflow/representacion-grafica-tdas.png)
+![](https://github.com/Javieratapiab/laboratorio-paradigmas-stackoverflow/blob/main/representacion-grafica-tdas.png)
 
 
 ## Características del laboratorio
