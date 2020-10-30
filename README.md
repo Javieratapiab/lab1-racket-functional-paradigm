@@ -1,6 +1,6 @@
 # Laboratorio paradigmas: Stackoverflow
 
-Se presenta proyecto semestral de laboratorio de la asignatura **"Paradigmas de programación"** que consta en la creación de un clón de Stackoverflow en el lenguaje Racket.
+Se presenta proyecto semestral de laboratorio de la asignatura **"Paradigmas de programación"** que consta en la creación de un clon de Stackoverflow en el lenguaje Racket, que consolida los conocimientos del paradigma funcional.
 
 ## Características del laboratorio
 
