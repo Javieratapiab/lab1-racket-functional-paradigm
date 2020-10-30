@@ -1,6 +1,6 @@
 # Laboratorio paradigmas: Stackoverflow
 
-
+**Asignatura**: Paradigmas de programación
 **Autora**: Javiera Tapia Bobadilla
 
 
