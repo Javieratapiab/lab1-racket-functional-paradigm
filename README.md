@@ -1,7 +1,7 @@
 # Laboratorio paradigmas: Stackoverflow
 
-**Asignatura**: Paradigmas de programación
-**Autora**: Javiera Tapia Bobadilla
+- **Asignatura**: Paradigmas de programación
+- **Autora**: Javiera Tapia Bobadilla
 
 
 Se presenta proyecto semestral de laboratorio de la asignatura **"Paradigmas de programación"** que consta en la creación de un clon de Stackoverflow en el lenguaje Racket, que consolida los conocimientos del paradigma funcional.
