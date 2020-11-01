@@ -39,7 +39,7 @@
 ;rec: string
 (define getPass cadr)
 
-;descripción: Permite que permite obtener reputación de usuario
+;descripción: Función que permite obtener reputación de usuario
 ;dom: user
 ;rec: integer
 (define getReputation caddr)
