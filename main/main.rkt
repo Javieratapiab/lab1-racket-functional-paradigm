@@ -1,19 +1,16 @@
 #lang racket
 
-;IMPORTS
 (require "stack.rkt")
 (require "usuario.rkt")
 (require "pregunta.rkt") 
 
 ;Casos prueba
-(define usuarios_iniciales (stackTDA (user "pepito" "miclave")(user "Javiera" "12345")))
-(define stack_1 (register usuarios_iniciales "Tomás" "12345"))
-(define stack_2 (register usuarios_iniciales "Francisca" "sadasdad12345"))
+(define stackOverflow (stackTDA (user "Bilz" "mi$uperklave")(user "Pap" "123454321")))
+(define stackOverflow1 (register stackOverflow "Pepsi" "pa$$"))
 
-;Ask
-(define lazy-logging
-  (lazy (((login stack_2 "pepito" "miclave" ask)
+; 1) Usuario logueado creando una pregunta
+(define lazy-login-ask
+  (lazy (((login stackOverflow1 "Pepsi" "pa$$" ask)
          (date 30 10 2020)) "How you doing?" "e1" "e2" "e3")))
 
-;Uso Ask
-;(force lazy-logging)
+(force lazy-login-ask)

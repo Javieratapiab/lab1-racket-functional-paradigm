@@ -4,7 +4,6 @@
 (provide user?)
 (provide getName)
 (provide getPass)
-; (provide getReputation)
 
 ;CONSTRUCTOR
 ;descripción: Función que permite crear un usuario
@@ -38,8 +37,3 @@
 ;dom: user
 ;rec: string
 (define getPass cadr)
-
-;descripción: Función que permite obtener reputación de usuario
-;dom: user
-;rec: integer
-; (define getReputation caddr)
