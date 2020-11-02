@@ -1,23 +1,17 @@
 #lang racket
 
-(require "etiqueta.rkt")
 (require "usuario.rkt")
 
-(provide question)
+(provide questionTDA)
 (provide question?)
-(provide date)
-(provide date?)
 (provide ask)
+(provide date)
 
 ; CONSTRUCTOR
-(define (question user publicationDate questionText tag)
-  (if (and (user? user)
-           (date? publicationDate)
-           (string? questionText)
-           (tag? tag))
-      (list user publicationDate questionText tag)
-      null))
+;(define questionTDA list)
+(define questionTDA list)
 
+; CONSTRUCTOR FECHA
 (define (date m d y)
   (if (and (integer? m)(integer? d)(integer? y))
       (list m d y)
@@ -27,8 +21,9 @@
 (define (question? q)
   (and (list? q)
        (= (length q) 4)
-       (not (null? (question (car q) (cadr q)(caddr q)(cadddr q))))))
+       (not (null? (questionTDA (car q)(cadr q)(caddr q)(cadddr q))))))
 
+; PERTENENCIA FECHA
 (define (date? d)
   (and (list? d)
        (>= (length d) 3)
@@ -42,5 +37,5 @@
 (define ask (lambda (stack)
               (lambda (date)
                 (lambda (question . labels)
-                  (display stack)
+                  (questionTDA (car stack) date question labels)
                   ))))

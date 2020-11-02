@@ -4,7 +4,7 @@
 (provide user?)
 (provide getName)
 (provide getPass)
-(provide getReputation)
+; (provide getReputation)
 
 ;CONSTRUCTOR
 ;descripción: Función que permite crear un usuario
@@ -12,7 +12,7 @@
 ;rec: lista
 (define (user username password)
   (if (and (string? username)(string? password))
-    (list username password 0)
+    (list username password)
     null
   )
 )
@@ -24,11 +24,11 @@
 ;rec: boolean
 (define (user? u)
   (and (list? u)
-       (= (length u) 3)
+       (= (length u) 2)
       (not (null? (user (car u) (cadr u)))))
 )
 
-; SELECTORES
+;SELECTORES
 ;descripción: Función que permite obtener nombre de usuario
 ;dom: user
 ;rec: string
@@ -42,4 +42,4 @@
 ;descripción: Función que permite obtener reputación de usuario
 ;dom: user
 ;rec: integer
-(define getReputation caddr)
+; (define getReputation caddr)
