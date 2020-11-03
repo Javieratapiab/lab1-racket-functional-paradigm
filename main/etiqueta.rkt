@@ -9,10 +9,8 @@
 ;rec: list
 (define (tag description)
   (if (string? description)
-    (list description)
-    null))
-
-(define emptyTag null)
+      (list description)
+      null))
 
 ;PERTENENCIA
 ;descripción: Función que permite determinar si un elemento cualquiera es del tipo tag

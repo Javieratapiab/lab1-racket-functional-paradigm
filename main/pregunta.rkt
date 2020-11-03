@@ -1,6 +1,7 @@
 #lang racket
 
 (require "usuario.rkt")
+(require "respuesta.rkt")
 
 (provide questionTDA)
 (provide question?)
@@ -8,11 +9,10 @@
 (provide date)
 
 ; CONSTRUCTOR
-;descripción: Función que permite crear una pregunta (question).
-;dom: list
-;rec: list
+;descripción: Función que permite crear una pregunta.
+;dom: lista (características de pregunta)
+;rec: lista
 (define questionTDA list)
-
 
 ; CONSTRUCTOR (FECHA)
 ;descripción: Función que permite crear una fecha (date).
@@ -22,7 +22,6 @@
   (if (and (integer? m)(integer? d)(integer? y))
       (list m d y)
       null))
-
 
 ;PERTENENCIA
 ;descripción: Función que permite determinar si un elemento cualquiera es del tipo question
@@ -50,11 +49,13 @@
 ; MODIFICADOR
 ;descripción: Función currificada que permite a un usuario con sesión
 ;             iniciada realizar una nueva pregunta.
-;dom: stack X date X question X labels
+;dom: stack
+;recorrido: list -> stack X date X string X string list
 ;rec: stack
 (define ask (lambda (stack)
               (lambda (date)
                 (lambda (question . labels)
                   (if (string? (car stack))
-                      (list (cdr stack)(list (questionTDA (car stack) date question labels)))
-                      null)))))
+                      (list (cdr stack)
+                            (list (questionTDA (car stack) date question labels)))
+                      stack)))))

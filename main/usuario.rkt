@@ -11,10 +11,8 @@
 ;rec: lista
 (define (user username password)
   (if (and (string? username)(string? password))
-    (list username password)
-    null
-  )
-)
+    (list username password 0)
+    null))
 
 ;PERTENENCIA
 ;descripción: Función que permite determinar si un elemento cualquiera es del tipo user
@@ -23,17 +21,21 @@
 ;rec: boolean
 (define (user? u)
   (and (list? u)
-       (= (length u) 2)
-      (not (null? (user (car u) (cadr u)))))
-)
+       (= (length u) 3)
+      (not (null? (user (car u) (cadr u))))))
 
 ;SELECTORES
-;descripción: Función que permite obtener nombre de usuario
+;descripción: Función que permite obtener nombre de un usuario
 ;dom: user
 ;rec: string
 (define getName car)
 
-;descripción: Función que permite obtener password de usuario
+;descripción: Función que permite obtener password de un usuario
 ;dom: user
 ;rec: string
 (define getPass cadr)
+
+;descripción: Función que permite obtener reputación de un usuario
+;dom: user
+;rec: string
+(define getReputation caddr)

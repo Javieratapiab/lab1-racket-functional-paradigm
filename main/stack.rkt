@@ -36,16 +36,16 @@
 
 ;descripción: Función que permite registrar un usuario en el stack
 ;dom: stack X string X string
-;rec: stack (con usunario registrado)
+;rec: stack (con usuario registrado)
 (define (register stack username password)
   (if (null? (getUser username password stack))
       (addUser username password stack)
       stack))
 
-;descripción: Función que permite loguear un usuario del stack y gatillar una funcion dada
-;             en caso de tratarse de un usuario previamente registrado.
-;dom: stack X string X string X function
-;rec: stack
+;descripción: Función que permite loguear un usuario del stack
+;             y retornar una función currificada de la operación recibida.
+;dom: stack X string X string X función
+;rec: función currificada que retorna stack actualizado
 (define (login stack username password operation)
   (if (null? (getUser username password stack))
       operation
@@ -55,8 +55,8 @@
 ;OTRAS IMPLEMENTACIONES
 ;descripción: Función perezosa auxuliar que permite
 ;             gatillar una operación (función) currificada
-;dom: function
-;rec: stack
+;dom: función X stack
+;rec: stack actualizado
 (define lazy-operation
   (lazy (lambda (operation)
           (lambda (stack)
