@@ -55,4 +55,6 @@
 (define ask (lambda (stack)
               (lambda (date)
                 (lambda (question . labels)
-                  (append (cdr stack)(list (questionTDA (car stack) date question labels)))))))
+                  (if (string? (car stack))
+                      (list (cdr stack)(list (questionTDA (car stack) date question labels)))
+                      null)))))
