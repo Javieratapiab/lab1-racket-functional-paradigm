@@ -51,3 +51,7 @@ stackOverflow3
 (force invalidAsk)
 (display "* Caso 2: creación de multiples preguntas con una colección de usuarios registrados \n")
 (force multipleAsk)
+
+
+; 3. Recompensa por pregunta
+;-------------------------------------------------------------------------
