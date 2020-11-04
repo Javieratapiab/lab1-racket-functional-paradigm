@@ -10,8 +10,8 @@
 
 ; 1. Registro de usuarios
 ;-------------------------------------------------------------------------
-(display "---- Usuarios registrados ---- \n")
-(define stackOverflow (stackTDA (list (user "Bill Gates" "mi$uperklave")
+(display "**** Usuarios registrados **** \n")
+(define stackOverflow (stackList (list (user "Bill Gates" "mi$uperklave")
                                       (user "Dan abramov" "123454321"))))
 (define stackOverflow1 (register stackOverflow "Jeff Bezos" "pa$$"))
 (define stackOverflow2 (register stackOverflow "Mark Zuckerberg" "pa$$w0rd"))
@@ -25,7 +25,7 @@ stackOverflow3
 
 ; 2. Creación de preguntas y login
 ;-------------------------------------------------------------------------
-(display "\n---- Creación de preguntas ---- \n")
+(display "\n**** Creación de preguntas ****\n")
 (define validAsk1
   (lazy (((login stackOverflow1 "Bill Gates" "mi$uperklave" ask)
           (date 30 10 2020)) "What is hoisting?" "javascript" "computer science" "functional paradigm")))
@@ -51,3 +51,15 @@ stackOverflow3
 (force invalidAsk)
 (display "* Caso 2: creación de multiples preguntas con una colección de usuarios registrados \n")
 (force multipleAsk)
+
+; 3. Recompensa por pregunta
+;-------------------------------------------------------------------------
+(display "\n**** Creación de recompensas **** \n")
+(define validReward1
+  (lazy (((login (force multipleAsk) "Bill Gates" "mi$uperklave" reward) 2) 200)))
+
+(define validReward2
+  (lazy (((login (force validReward1) "Bill Gates" "mi$uperklave" reward) 2) 50)))
+
+(force validReward1)
+(force validReward2)
