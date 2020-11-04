@@ -14,6 +14,8 @@
 (define stackTDA list)
 
 ;SELECTORES
+(define getUsers car)
+
 ;descripción: Función que permite obtener un usuario del stack
 ;dom: string X string X stack
 ;rec: usuario
@@ -31,14 +33,14 @@
 ;rec: stack (con nuevo usuario)
 (define (addUser username password stack)
   (if (user? (user username password))
-      (cons (user username password) stack)
+      (cons (cons (user username password)(car stack))(cdr stack))
       stack))
 
 ;descripción: Función que permite registrar un usuario en el stack
 ;dom: stack X string X string
 ;rec: stack (con usuario registrado)
 (define (register stack username password)
-  (if (null? (getUser username password stack))
+  (if (null? (getUser username password (getUsers stack)))
       (addUser username password stack)
       stack))
 
@@ -47,7 +49,10 @@
 ;dom: stack X string X string X función
 ;rec: función currificada que retorna stack actualizado
 (define (login stack username password operation)
-  (if (null? (getUser username password stack))
+  (display "***** STACK LOGIN ***** \n")
+  (display (cons username stack))
+  (display "*********************** \n")
+  (if (null? (getUser username password (getUsers stack)))
       operation
       (((force lazy-operation) operation)
        (cons username stack))))

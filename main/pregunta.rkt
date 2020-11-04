@@ -34,7 +34,6 @@
        (= (length q) 4)
        (not (null? (questionTDA (car q)(cadr q)(caddr q)(cadddr q))))))
 
-
 ; PERTENENCIA (FECHA)
 ;descripción: Función que permite determinar si un elemento cualquiera es del tipo date
 ;             se implementa a partir del constructor evaluando el retorno.
@@ -45,6 +44,10 @@
        (>= (length d) 3)
        (not (null? (date (car d) (cadr d)(caddr d))))))
 
+(define (setQuestions date question labels stack)
+  (if (= (length (cdr stack)) 1)
+      (list (questionTDA (car stack) date question labels))
+      (cons (questionTDA (car stack) date question labels)(cadr (cdr stack)))))
 
 ; MODIFICADOR
 ;descripción: Función currificada que permite a un usuario con sesión
@@ -56,6 +59,6 @@
               (lambda (date)
                 (lambda (question . labels)
                   (if (string? (car stack))
-                      (list (cdr stack)
-                            (list (questionTDA (car stack) date question labels)))
+                      (list (car (cdr stack))
+                            (setQuestions date question labels stack))
                       stack)))))
