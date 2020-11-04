@@ -1,20 +1,27 @@
 #lang racket
 
+(require "pregunta.rkt")
+
 (provide user)
 (provide user?)
 (provide getName)
 (provide getPass)
+(provide getUser)
+(provide addUser)
 
 ;CONSTRUCTOR
-;descripción: Función que permite crear un usuario
-;dom: lista
-;rec: lista
+;-------------------------------------------------------------------------
+;descripción: Función que permite crear la lista usuario
+;dom: string X string
+;rec: usuario
 (define (user username password)
   (if (and (string? username)(string? password))
-    (list username password 0)
-    null))
+      (list username password 0)
+      null))
+
 
 ;PERTENENCIA
+;-------------------------------------------------------------------------
 ;descripción: Función que permite determinar si un elemento cualquiera es del tipo user
 ;se implementa a partir del constructor evaluando el retorno
 ;dom: elemento de cualquier tipo
@@ -22,20 +29,59 @@
 (define (user? u)
   (and (list? u)
        (= (length u) 3)
-      (not (null? (user (car u) (cadr u))))))
+       (not (null? (user (car u) (cadr u))))))
+
 
 ;SELECTORES
+;-------------------------------------------------------------------------
 ;descripción: Función que permite obtener nombre de un usuario
 ;dom: user
-;rec: string
+;rec: string (username)
 (define getName car)
 
 ;descripción: Función que permite obtener password de un usuario
 ;dom: user
-;rec: string
+;rec: string (password)
 (define getPass cadr)
 
 ;descripción: Función que permite obtener reputación de un usuario
 ;dom: user
-;rec: string
+;rec: string (reputation)
 (define getReputation caddr)
+
+;descripción: Función que permite obtener un usuario de una lista (stack)
+;dom: string X stack
+;rec: usuario
+(define (getUser username stack)
+  (if (null? stack)
+      stack
+      (if (and (eq? (getName (car stack)) username))
+          (car stack)
+          (getUser username (cdr stack)))))
+
+
+;MODIFICADORES
+;-------------------------------------------------------------------------
+;(define (setReward reward ))
+
+;descripción: Función que permite agregar un usuario a una lista (stack)
+;dom: string X string X stack
+;rec: stack (con nuevo usuario)
+(define (addUser username password stack)
+  (if (user? (user username password))
+      (cons (cons (user username password)(car stack))(cdr stack))
+      stack))
+
+;descripción: Función currificada que permite a un usuario logueado
+;             crear una recompensa asociada a una pregunta.
+;dom: stack
+;recorrido: integer (ID pregunta) X integer (recompensa)
+;rec: stack
+(define reward (lambda (stack)
+                 (lambda (questionId)
+                   (lambda (rewardQuantity)
+                     (if (string? (car stack))
+                         #t
+                         ;(list (car (cdr stack))(setReward (car ))
+                         ;(list (car (cdr stack))(setQuestions date question labels stack))
+                         stack)))))

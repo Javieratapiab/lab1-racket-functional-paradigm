@@ -1,55 +1,57 @@
 #lang racket
 
-(require "usuario.rkt")
+(require "utils.rkt")
 (require "respuesta.rkt")
 
 (provide questionTDA)
 (provide question?)
 (provide ask)
-(provide date)
 
 ; CONSTRUCTOR
+;-------------------------------------------------------------------------
 ;descripción: Función que permite crear una pregunta.
 ;dom: lista (características de pregunta)
 ;rec: lista
 (define questionTDA list)
 
-; CONSTRUCTOR (FECHA)
-;descripción: Función que permite crear una fecha (date).
-;dom: integer X integer X integer
-;rec: list
-(define (date m d y)
-  (if (and (integer? m)(integer? d)(integer? y))
-      (list m d y)
-      null))
+;SELECTORES
+;-------------------------------------------------------------------------
+(define getQuestionId car)
+(define (getQuestions stack)(cadr (cdr stack)))
 
 ;PERTENENCIA
+;-------------------------------------------------------------------------
 ;descripción: Función que permite determinar si un elemento cualquiera es del tipo question
 ;             se implementa a partir del constructor evaluando el retorno.
 ;dom: elemento de cualquier tipo
 ;rec: boolean
-
 (define (question? q)
   (and (list? q)
        (= (length q) 4)
        (not (null? (questionTDA (car q)(cadr q)(caddr q)(cadddr q))))))
 
-; PERTENENCIA (FECHA)
-;descripción: Función que permite determinar si un elemento cualquiera es del tipo date
-;             se implementa a partir del constructor evaluando el retorno.
-;dom: elemento de cualquier tipo
-;rec: boolean
-(define (date? d)
-  (and (list? d)
-       (>= (length d) 3)
-       (not (null? (date (car d) (cadr d)(caddr d))))))
+; MODIFICADOR
+;-------------------------------------------------------------------------
+;descripción: Función que permite crear una lista de preguntas o crear
+;             una lista nueva de preguntas existentes y una nueva pregunta.
+;dom: lista de preguntas
+;rec: integer (ID único de pregunta)
+(define (setQuestionId questions)
+  (if (null? questions)
+      1
+      (+ (getQuestionId (car questions)) 1)))
 
+;descripción: Función que permite crear una lista de preguntas o crear
+;             una lista nueva de preguntas existentes y una nueva pregunta.
+;dom: date X string X list X stack
+;recorrido: list -> stack X date X string X string list
+;rec: lista de p
 (define (setQuestions date question labels stack)
   (if (= (length (cdr stack)) 1)
-      (list (questionTDA (car stack) date question labels))
-      (cons (questionTDA (car stack) date question labels)(cadr (cdr stack)))))
+      (list (questionTDA 1 (car stack) date question labels))
+      (cons (questionTDA (setQuestionId (getQuestions stack))(car stack) date question labels)
+            (getQuestions stack))))
 
-; MODIFICADOR
 ;descripción: Función currificada que permite a un usuario con sesión
 ;             iniciada realizar una nueva pregunta.
 ;dom: stack
@@ -59,6 +61,5 @@
               (lambda (date)
                 (lambda (question . labels)
                   (if (string? (car stack))
-                      (list (car (cdr stack))
-                            (setQuestions date question labels stack))
+                      (list (car (cdr stack))(setQuestions date question labels stack))
                       stack)))))
