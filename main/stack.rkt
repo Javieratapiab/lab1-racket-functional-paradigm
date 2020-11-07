@@ -23,6 +23,10 @@
 
 (define getUsers car)
 
+;descripción: Función que permite obtener los usuarios dentro de una lista (stack)
+;dom: stack
+;rec: usuarios
+(define getRewards cddr)
 
 ; MODIFICADORES
 ;-------------------------------------------------------------------------

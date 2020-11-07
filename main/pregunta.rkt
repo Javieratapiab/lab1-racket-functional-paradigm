@@ -74,6 +74,18 @@
       (cons (questionList (setQuestionId (getQuestions stack))(car stack) date question labels)
             (getQuestions stack))))
 
+;descripción: Función que permite a una pregunta recibir una recompensa en puntos de reputación
+;dom: date X string X list X stack
+;recorrido: list -> stack X date X string X string list
+;rec: lista de p
+
+(define (receiveReward stack date question labels)
+  (if (= (length (cdr stack)) 1)
+      (list (questionList 1 (car stack) date question labels))
+      (cons (questionList (setQuestionId (getQuestions stack))(car stack) date question labels)
+            (getQuestions stack))))
+
+
 ;descripción: Función currificada que permite a un usuario con sesión
 ;             iniciada realizar una nueva pregunta.
 ;dom: stack

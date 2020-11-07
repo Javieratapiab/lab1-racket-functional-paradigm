@@ -89,7 +89,7 @@
 ;dom: string X integer X integer X stack
 ;rec: stack actualizado
 
-(define (setReward username users rewardQuantity questionId)
+(define (sendReward username users rewardQuantity questionId)
   (define getUserLazy (lazy (getUser username users)))
   (if (< (calculateReputation(force getUserLazy)) rewardQuantity)
       users
@@ -115,8 +115,9 @@
                  (lambda (questionId)
                    (lambda (rewardQuantity)
                      (if (string? (car stack))
-                         (cons (setReward (car stack)(car (cdr stack)) rewardQuantity questionId)
-                               (cdr (cdr stack)))
+                         (cons (sendReward (car stack)(car (cdr stack)) rewardQuantity questionId)
+                               (getQuestions (cdr stack)))
+                               ;(receiveReward user)))
                          stack)))))
 
 ;OTRAS IMPLEMENTACIONES
