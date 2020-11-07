@@ -55,11 +55,14 @@ stackOverflow3
 ; 3. Recompensa por pregunta
 ;-------------------------------------------------------------------------
 (display "\n**** Creación de recompensas **** \n")
+(display "* Caso 1: recompensa excede reputación de usuario (retorna stack) \n")
 (define validReward1
   (lazy (((login (force multipleAsk) "Bill Gates" "mi$uperklave" reward) 2) 200)))
 
-(define validReward2
-  (lazy (((login (force validReward1) "Bill Gates" "mi$uperklave" reward) 2) 50)))
-
 (force validReward1)
+
+(display "* Caso 2: recompensa actualiza reputación temporal de user \n")
+(define validReward2
+  (lazy (((login (force multipleAsk) "Bill Gates" "mi$uperklave" reward) 2) 50)))
+
 (force validReward2)

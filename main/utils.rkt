@@ -8,6 +8,7 @@
 ;descripción: Función que retorna el último elemento de una lista
 ;dom: lista
 ;rec: último elemento de la lista
+
 (define (customLast l)
   (if (= (length l) 1)
       (car l)
