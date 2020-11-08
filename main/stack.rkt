@@ -10,9 +10,12 @@
 ;-------------------------------------------------------------------------
 ;descripción: Función que permite crear un stack (contenedor de listas)
 ;dom: lista
-;rec: lista de listas (usuarios registrados X preguntas)
+;rec: lista de listas (usuarios registrados X preguntas X recompensas X respuestas)
 
-(define stackList list)
+(define (stackList users)
+  (if (list? users)
+      (list users null null null)
+       null))
 
 
 ;SELECTORES
@@ -23,10 +26,6 @@
 
 (define getUsers car)
 
-;descripción: Función que permite obtener los usuarios dentro de una lista (stack)
-;dom: stack
-;rec: usuarios
-(define getRewards cddr)
 
 ; MODIFICADORES
 ;-------------------------------------------------------------------------

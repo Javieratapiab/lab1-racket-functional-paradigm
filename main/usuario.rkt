@@ -100,7 +100,8 @@
         (cdr stack)
         (list (setReputation user users rewardQuantity)
               (getQuestions stack)
-              (setReward (cdr stack)(car user) rewardQuantity questionId)))))
+              (setReward (cdr stack)(car user) rewardQuantity questionId)
+              (cadddr (cdr stack))))))
 
 ;descripción: Función que permite agregar un usuario a una lista (stack)
 ;dom: string X string X stack

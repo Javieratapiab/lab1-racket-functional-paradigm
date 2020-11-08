@@ -14,6 +14,7 @@
       (car l)
       (customLast (cdr l))))
 
+
 ;descripción: Función que permite crear una fecha (date).
 ;dom: integer X integer X integer
 ;rec: list

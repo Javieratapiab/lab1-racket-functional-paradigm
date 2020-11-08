@@ -1,8 +1,5 @@
 #lang racket
 
-(require "utils.rkt")
-(require "respuesta.rkt")
-
 (provide questionList)
 (provide getQuestionId)
 (provide getQuestions)
@@ -11,10 +8,10 @@
 ; CONSTRUCTOR
 ;-------------------------------------------------------------------------
 ;descripción: Función que permite crear una pregunta.
-;dom: lista (características de pregunta)
+;dom: elementos de una pregunta
 ;rec: lista question
-;     (integer (id) X integer (votos) X integer (visualizaciones) X string (título) X string (contenido)
-;       X date (fecha publicación) x date (fecha última modificación) X string (autor) X string (estado) X lista (etiquetas))
+;     (integer (id) X string (estado) X integer (votos positivos) X integer (votos negativos) X integer (visualizaciones) X string (título)
+;     X date (fecha última modificación) X string (autor) X date (fecha publicación) X string (contenido) X lista (etiquetas))
 
 (define questionList list)
 
@@ -49,16 +46,16 @@
 ;dom: date X string X list X stack
 ;rec: questions (lista)
 
-(define (setQuestions stack date question labels)
+(define (setQuestions stack date content labels)
   (let ([author (car stack)]
         [votes 0]
         [views 0]
         [title ""]
         [lastActivity date]
         [status "abierta"])
-    (if (= (length (cdr stack)) 1)
-        (list (questionList 1 votes views title question date lastActivity author status labels))
-        (cons (questionList (setQuestionId (getQuestions stack)) votes views title question date lastActivity author status labels)
+    (if (null? (cadr (cdr stack)))
+        (list (questionList (setQuestionId (getQuestions stack)) status votes votes views title lastActivity author date content labels))
+        (cons (questionList (setQuestionId (getQuestions stack)) status votes votes views title lastActivity author date content labels)
               (getQuestions stack)))))
 
 ;descripción: Función currificada que permite a un usuario con sesión
@@ -70,7 +67,9 @@
 (define ask (lambda (stack)
               (lambda (date)
                 (lambda (question . labels)
-                  (if (string? (car stack))
-                      (let ([users (car (cdr stack))])
-                        (list users (setQuestions stack date question labels)))
+                  (if (string? (car stack)) ; validación de user logueado
+                      (let ([users (car (cdr stack))]
+                            [rewards (caddr (cdr stack))]
+                            [answers (cadddr (cdr stack))])
+                        (list users (setQuestions stack date question labels) rewards answers))
                       stack)))))
