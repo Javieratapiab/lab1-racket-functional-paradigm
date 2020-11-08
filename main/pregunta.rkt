@@ -4,7 +4,6 @@
 (require "respuesta.rkt")
 
 (provide questionList)
-(provide question?)
 (provide getQuestionId)
 (provide getQuestions)
 (provide ask)
@@ -13,7 +12,9 @@
 ;-------------------------------------------------------------------------
 ;descripción: Función que permite crear una pregunta.
 ;dom: lista (características de pregunta)
-;rec: lista
+;rec: lista question
+;     (integer (id) X integer (votos) X integer (visualizaciones) X string (título) X string (contenido)
+;       X date (fecha publicación) x date (fecha última modificación) X string (autor) X string (estado) X lista (etiquetas))
 
 (define questionList list)
 
@@ -32,69 +33,44 @@
 
 (define (getQuestions stack)(cadr (cdr stack)))
 
-;descripción: Función que permite obtener una pregunta
-;dom: stack
-;rec: lista (questions)
-
-(define getRewards cddr)
-
-;PERTENENCIA
-;-------------------------------------------------------------------------
-;descripción: Función que permite determinar si un elemento cualquiera es del tipo question
-;             se implementa a partir del constructor evaluando el retorno.
-;dom: elemento de cualquier tipo
-;rec: boolean
-
-(define (question? q)
-  (and (list? q)
-       (= (length q) 4)
-       (not (null? (questionList (car q)(cadr q)(caddr q)(cadddr q))))))
 
 ; MODIFICADORES
 ;-------------------------------------------------------------------------
-;descripción: Función que permite crear una lista de preguntas o crear
-;             una lista nueva de preguntas existentes y una nueva pregunta.
+;descripción: Función que setea un ID incremental para nueva pregunta
 ;dom: lista de preguntas
 ;rec: integer (ID único de pregunta)
-
 (define (setQuestionId questions)
   (if (null? questions)
       1
       (+ (getQuestionId (car questions)) 1)))
 
-;descripción: Función que permite crear una lista de preguntas o crear
-;             una lista nueva de preguntas existentes y una nueva pregunta.
+;descripción: Función que permite crear una lista de preguntas
+;             o actualiza lista existente de preguntas con nueva pregunta.
 ;dom: date X string X list X stack
-;recorrido: list -> stack X date X string X string list
-;rec: lista de p
+;rec: questions (lista)
 
 (define (setQuestions stack date question labels)
-  (if (= (length (cdr stack)) 1)
-      (list (questionList 1 (car stack) date question labels))
-      (cons (questionList (setQuestionId (getQuestions stack))(car stack) date question labels)
-            (getQuestions stack))))
-
-;descripción: Función que permite a una pregunta recibir una recompensa en puntos de reputación
-;dom: date X string X list X stack
-;recorrido: list -> stack X date X string X string list
-;rec: lista de p
-
-(define (receiveReward stack date question labels)
-  (if (= (length (cdr stack)) 1)
-      (list (questionList 1 (car stack) date question labels))
-      (cons (questionList (setQuestionId (getQuestions stack))(car stack) date question labels)
-            (getQuestions stack))))
-
+  (let ([author (car stack)]
+        [votes 0]
+        [views 0]
+        [title ""]
+        [lastActivity date]
+        [status "abierta"])
+    (if (= (length (cdr stack)) 1)
+        (list (questionList 1 votes views title question date lastActivity author status labels))
+        (cons (questionList (setQuestionId (getQuestions stack)) votes views title question date lastActivity author status labels)
+              (getQuestions stack)))))
 
 ;descripción: Función currificada que permite a un usuario con sesión
 ;             iniciada realizar una nueva pregunta.
 ;dom: stack
 ;recorrido: list -> stack X date X string X string list
-;rec: stack
+;rec: stack actualizado
 
 (define ask (lambda (stack)
               (lambda (date)
                 (lambda (question . labels)
                   (if (string? (car stack))
-                      (list (car (cdr stack))(setQuestions stack date question labels))
+                      (let ([users (car (cdr stack))])
+                        (list users (setQuestions stack date question labels)))
                       stack)))))
