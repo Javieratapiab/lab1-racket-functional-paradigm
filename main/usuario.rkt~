@@ -1,7 +1,6 @@
 #lang racket
 
 (require "pregunta.rkt")
-(require "respuesta.rkt")
 (require "reward.rkt")
 
 (provide user)
@@ -10,7 +9,6 @@
 (provide getPass)
 (provide addUser)
 (provide reward)
-(provide accept)
 
 ;CONSTRUCTOR
 ;-------------------------------------------------------------------------
@@ -115,7 +113,6 @@
         (cons (cons user (car stack))(cdr stack))
         stack)))
 
-
 ;descripción: Función currificada que permite a un usuario logueado
 ;             crear una recompensa asociada a una pregunta.
 ;dom: stack
@@ -128,21 +125,6 @@
                      (if (string? (car stack))
                          (setRewards (car stack) rewardQuantity questionId stack)
                          stack)))))
-
-
-;descripción: Función currificada que permite a un usuario aceptar
-;             una respuesta a una de sus preguntas.
-;dom: stack
-;recorrido: integer (ID pregunta) X integer (ID respuesta)
-;rec: stack actualizado
-
-(define accept (lambda (stack)
-                 (lambda (questionId)
-                   (lambda (answerId)
-                     (if (string? (car stack))
-                         
-                         stack)))))
-
 
 ;OTRAS IMPLEMENTACIONES
 ;-------------------------------------------------------------------------
