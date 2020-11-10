@@ -5,6 +5,7 @@
 (provide stackList)
 (provide register)
 (provide login)
+(provide stack->string)
 
 ;CONSTRUCTOR
 ;-------------------------------------------------------------------------
@@ -38,6 +39,7 @@
       (addUser username password stack)
       stack))
 
+
 ;descripción: Función que permite loguear un usuario del stack con username y password
 ;             y retornar una función currificada de la operación recibida.
 ;dom: stack X string X string X función
@@ -62,3 +64,18 @@
   (lazy (lambda (operation)
           (lambda (stack)
             (operation stack)))))
+
+
+;descripción: Función que entrega una representación del stack 
+;             como un posible string posible de visualizar de forma comprensible
+;dom: stack
+;rec: string
+
+(define stack->string (lambda (stack)
+                        (if (string? (car stack)) ; validación de user logueado
+                            (let ([users (car (cdr stack))]
+                                  [questions (cadr (cdr stack))]
+                                  [rewards (caddr (cdr stack))]
+                                  [answers (cadddr (cdr stack))])
+                                  users)
+                            stack)))

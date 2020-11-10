@@ -27,7 +27,7 @@
 ;PERTENENCIA
 ;-------------------------------------------------------------------------
 ;descripción: Función que permite determinar si un elemento cualquiera es del tipo user
-;se implementa a partir del constructor evaluando el retorno
+;             se implementa a partir del constructor evaluando el retorno
 ;dom: elemento de cualquier tipo
 ;rec: boolean
 (define (user? u)
@@ -67,15 +67,57 @@
 ;tipo de recusión: cola
 ;rec: usuario
 
-(define (getUser username stack)
-  (if (null? stack)
-      stack
-      (if (and (eq? (getName (car stack)) username))
-          (car stack)
-          (getUser username (cdr stack)))))
+(define (getUser username users)
+  (if (null? users)
+      users
+      (if (and (eq? (getName (car users)) username))
+          (car users)
+          (getUser username (cdr users)))))
+
 
 ;MODIFICADORES
 ;-------------------------------------------------------------------------
+
+;descripción: Función que aplica lógica de recompensas para todos los usuarios involucrados
+;             (usuario que hace la pregunta, usuario que responde, usuarios que dieron recompensa a la pregunta cuya respuesta fue aceptada)
+;dom: users X string (question author) X string (answer author) X string X rewards (asociadas al id de pregunta)
+;rec: lista de usuarios actualizada
+
+(define (acceptUsersReputation users questionUsername answerUsername rewards)
+  (let ([questionUser (getUser questionUsername users)]
+        [answerUser (getUser answerUsername users)])
+    (append (filter (lambda (u) (not (or (eq? questionUser u)
+                                         (eq? answerUser u)))) users)
+            (list (list (getName questionUser) ; Modifica reputación de usuario creador de la pregunta (+2)
+                        (getPass questionUser)
+                        (addReputation questionUser 2 rewards)
+                        (calculateTemporalReputation questionUser rewards))
+                  (list (getName answerUser)  ; Modifica reputación de usuario al que aceptaron su respuesta (+15)
+                        (getPass answerUser)
+                        (addReputation answerUser 15 rewards)
+                        (calculateTemporalReputation answerUser rewards))))))
+
+
+;descripción: Función que agrega reputación al usuario y resta de ella la recompensa si aplica
+;dom: usuario X integer (cantidad reputación) X rewards
+;rec: lista de usuarios actualizada
+
+(define (addReputation user quantity rewards)
+  (let ([userReward (findRewardByUser rewards (car user))])
+    (if (null? userReward)
+        (+ (getReputation user) quantity)
+        (- (+ (getReputation user) quantity)(caddr (car userReward))))))
+
+
+;descripción: Función que calcula la reputación temporal si hay una recompensa vigente
+;dom: usuario X rewards
+;rec: lista de usuarios actualizada
+
+(define (calculateTemporalReputation user rewards)
+  (let ([userReward (findRewardByUser rewards (car user))])
+    (if (null? userReward)
+        (getTemporalReputation user)
+        (+ (getTemporalReputation user)(caddr (car userReward))))))
 
 ;descripción: Función que modifica un usuario definiendo una nueva reputación
 ;             en base a la cantidad de recompensa ofrecida, retorna la lista
@@ -102,8 +144,9 @@
         (cdr stack)
         (list (setReputation user users rewardQuantity)
               (getQuestions stack)
-              (setReward (cdr stack)(car user) rewardQuantity questionId)
+              (setReward (cdr stack) author rewardQuantity questionId)
               (cadddr (cdr stack))))))
+
 
 ;descripción: Función que permite agregar un usuario a una lista (stack)
 ;dom: string X string X stack
@@ -140,14 +183,28 @@
                  (lambda (questionId)
                    (lambda (answerId)
                      (if (string? (car stack))
-                         
+                         (let ([author (car stack)]
+                               [users (car (cdr stack))]
+                               [questions (cadr (cdr stack))]
+                               [rewards (caddr (cdr stack))]
+                               [answers (cadddr (cdr stack))])
+                           (let ([question (getQuestionById questions questionId)]
+                                 [answer (getAnswerById answers answerId)])
+                             (if (eq? (getQuestionUser (car question)) author) ; Valida que la pregunta esté asociada al usuario logueado que acepta pregunta
+                                 (list (acceptUsersReputation users author (getAnswerUser (car answer))(getRewardsByQuestionId rewards questionId))
+                                       (cons (setQuestionStatus question "cerrada")  ; Modifica estado de una pregunta
+                                             (filter (lambda (q) (not (eq? questionId (car q)))) questions))
+                                       (removeRewards (getRewardsByQuestionId rewards questionId) rewards) ; Modifica recompensas
+                                       (cons (setAnswerStatus answer "sí")  ; Modifica estado de una respuesta
+                                             (filter (lambda (a) (not (eq? answerId (car a)))) answers)))
+                                 (cdr stack))))
                          stack)))))
-
 
 ;OTRAS IMPLEMENTACIONES
 ;-------------------------------------------------------------------------
 ;descripción: Función que calcula la reputación total (real y temporal) de un user
 ;dom: user
 ;rec: integer
+
 (define (calculateReputation user)
   (+ (getReputation user)(getTemporalReputation user)))

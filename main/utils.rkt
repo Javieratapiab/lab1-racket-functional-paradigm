@@ -1,19 +1,37 @@
 #lang racket
 
-(provide customLast)
+(provide customDelete)
+(provide customFlatten)
 (provide date)
 (provide date?)
 
 ; FUNCIONES AUXILIARES
-;descripción: Función que retorna el último elemento de una lista
-;dom: lista
-;rec: último elemento de la lista
 
-(define (customLast l)
-  (if (= (length l) 1)
-      (car l)
-      (customLast (cdr l))))
+;descripción: Implementación propia de remove. Permite eliminar elemento de una lista.
+;dom: lista X cualquier elemento de la lista
+;rec: lista actualizada
+;tipo de recusión: de cola
 
+(define (customDelete lst item)
+  (cond ((null? lst)
+         '())
+        ((equal? item (car lst))
+         (cdr lst))
+        (else
+         (cons (car lst) 
+               (customDelete (cdr lst) item)))))
+
+
+;descripción: Implementación propia de flatten. Condensa anidación de lista en una única lista
+;dom: cualquier lista
+;rec: lista actualizada
+;tipo de recusión: natural
+
+(define (customFlatten lst)
+  (cond ((null? lst) '())
+        ((pair? lst)
+         (append (customFlatten (car lst)) (customFlatten (cdr lst))))
+        (else (list lst))))
 
 ;descripción: Función que permite crear una fecha (date).
 ;dom: integer X integer X integer

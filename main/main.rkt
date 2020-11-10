@@ -13,7 +13,7 @@
 ; 1. REGISTER
 ;-------------------------------------------------------------------------
 
-(display "******* REGISTER ********\n")
+(display "\n******* REGISTER ********\n")
 ; Descripción: Creación de stack y registro de lista de users
 
 (display "* Creación de stack y registro de usuarios \n")
@@ -61,10 +61,9 @@ stackOverflow3
 
 ; Descripción: Creación de múltiples preguntas (con distintos usuarios)
 (define multipleAsk1 (lazy (((login (force validAsk1) "Jeff Bezos" "pa$$" ask)
-                               (date 30 09 2020)) "What does scope mean?" "javascript")))
+                             (date 30 09 2020)) "What does scope mean?" "javascript")))
 (define multipleAsk2 (lazy (((login (force multipleAsk1) "Jeff Bezos" "pa$$" ask)
-                               (date 30 09 2020)) "What is dijkstra algorithm?" "algorithms" "computer science")))
-
+                             (date 30 09 2020)) "What is dijkstra algorithm?" "algorithms" "computer science")))
 
 (display "1)")
 (force validAsk1)
@@ -96,12 +95,15 @@ stackOverflow3
   (lazy (((login (force multipleAsk2) "Dan abramov" "123454321" reward) 2) 55)))
 
 ; Descripción: Recompensa excede reputación de usuario (retorna stack)
-(define validReward4
+(define invalidReward
   (lazy (((login (force multipleAsk1) "Bill Gates" "mi$uperklave" reward) 2) 200)))
 
 ; Descripción: Creación de múltiples recompensas (con distintos usuarios)
 (define multipleReward
-  (lazy (((login (force validReward3) "Jeff Bezos" "pa$$" reward) 2) 80)))
+  (lazy (((login (force validReward2) "Dan abramov" "123454321" reward) 3) 80)))
+
+(define multipleReward2
+  (lazy (((login (force validReward2) "Jeff Bezos" "pa$$"  reward) 1) 22)))
 
 (display "1)")
 (force validReward1)
@@ -111,7 +113,7 @@ stackOverflow3
 (force validReward3)
 (display "* Caso específico: recompensa excede reputación de usuario (retorna stack) \n")
 (display "4)")
-(force validReward4)
+(force invalidReward)
 (display "* Extra: creación de multiples recompensas conservando stack \n")
 (display "5)")
 (force multipleReward)
@@ -124,20 +126,23 @@ stackOverflow3
 (display "* Login y creación de respuestas con usuario logueado \n")
 
 (define validAnswer1 (lazy ((((login (force multipleReward) "Jeff Bezos" "pa$$" answer)
-                               (date 30 10 2020)) 2) "Refers to the current context of code, which determines the accessibility" "javascript")))
+                              (date 30 10 2020)) 2) "Refers to the current context of code, which determines the accessibility" "javascript")))
 
-(define validAnswer2 (lazy ((((login (force multipleReward) "Bill Gates" "mi$uperklave" answer)
-                               (date 15 11 2020)) 1) "I don't know what it means but i think is cool" "javascript")))
+(define validAnswer2 (lazy ((((login (force multipleReward2) "Jeff Bezos" "pa$$" answer)
+                              (date 15 11 2020)) 1) "I don't know what it means but i think is cool" "javascript")))
 
 (define validAnswer3 (lazy ((((login (force multipleReward) "Dan abramov" "123454321" answer)
-                               (date 16 12 2020)) 1) "Default behavior of moving all declarations to the top of the current scope" "javascript")))
+                              (date 16 12 2020)) 1) "Default behavior of moving all declarations to the top of the current scope" "javascript")))
 
 ; Descripción: Creación de múltiples respuestas (con distintos usuarios)
-(define multipleAnswer (lazy ((((login (force validAnswer3) "Jeff Bezos" "pas$$" answer)
-          (date 13 10 2020)) 3) "Algorithm for finding the shortest paths between nodes in a graph" "algorithms" "computer science")))
+(define multipleAnswer1 (lazy ((((login (force validAnswer3) "Bill Gates" "mi$uperklave" answer)
+                                (date 13 10 2020)) 2) "Scope in JavaScript refers to the current context of code" "javascript")))
+
+(define multipleAnswer2 (lazy ((((login (force validAnswer2) "Dan abramov" "123454321" answer)
+                                (date 13 10 2020)) 2) "Scope in JavaScript refers to the current context of code" "javascript")))
 
 ; Descripción: Creación de respuesta inválido con una pregunta inexistente (retorna stack)
-(define invalidAnswer (lazy ((((login (force validAnswer3) "Dan abramov" "123454321" answer)
+(define invalidAnswer (lazy ((((login (force multipleAnswer2) "Dan abramov" "123454321" answer)
                                (date 16 12 2020)) 18) "Default behavior of moving all declarations to the top of the current scope" "javascript")))
 
 (display "1)")
@@ -151,8 +156,30 @@ stackOverflow3
 (force invalidAnswer)
 (display "* Extra: creación de multiples respuestas conservando stack \n")
 (display "5)")
-(force multipleAnswer)
+(force multipleAnswer1)
 
 ; 5. ACCEPT
 ;-------------------------------------------------------------------------
 (display "\n******* ACCEPT ********\n")
+
+; Descripción: Función accept y aceptación de respuestas con usuario logueado
+(display "* Login y aceptación con usuario logueado \n")
+(define validAccept1 (lazy (((login (force multipleAnswer1) "Jeff Bezos" "pas$$" accept) 2) 2)))
+(define validAccept2 (lazy (((login (force multipleAnswer2) "Bill Gates" "pas$$" accept) 1) 1)))
+(define invalidAccept (lazy (((login (force multipleAnswer1) "Dan abramov" "123454321" accept) 1) 1)))
+
+(display "1)")
+(force validAccept1)
+(display "2)")
+(force validAccept2)
+(display "* Caso específico: usuario intenta aceptar pregunta que no lo pertence. Retorna stack \n")
+(display "3)")
+(force invalidAccept)
+
+
+; 6. STACK->STRING
+;-------------------------------------------------------------------------
+(display "\n******* STACK->STRING ********\n")
+(define stackToString (login (force multipleAnswer2) "Jeff Bezos" "pas$$" stack->string))
+
+(force stackToString)

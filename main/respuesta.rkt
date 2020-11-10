@@ -1,7 +1,9 @@
 #lang racket
 
-
 (provide answer)
+(provide getAnswerById)
+(provide getAnswerUser)
+(provide setAnswerStatus)
 
 ; CONSTRUCTOR
 ;-------------------------------------------------------------------------
@@ -13,7 +15,6 @@
 
 (define answerList list)
 
-
 ;SELECTORES
 ;-------------------------------------------------------------------------
 
@@ -22,6 +23,68 @@
 ;rec: integer (id)
 
 (define getAnswerId car)
+
+;descripción: Función que permite obtener votos positivos de una respuesta
+;dom: respuesta
+;rec: integer (votos positivos)
+
+(define (getAnswerUpVotes answer) (cadr answer))
+
+;descripción: Función que permite obtener votos negativos de una respuesta
+;dom: respuesta
+;rec: integer (votos negativos)
+
+(define (getAnswerDownVotes answer) (caddr answer))
+
+;descripción: Función que permite obtener estado de aceptación de una respuesta
+;dom: respuesta
+;rec: string (estado de aceptación)
+
+(define (getAnswerStatus answer) (car (cdr (cdr (cdr (cdr answer))))))
+
+;descripción: Función que permite obtener reportes de ofensa de una respuesta
+;dom: respuesta
+;rec: integer (reportes de ofensa)
+
+(define (getAnswerOffenseReports answer) (car (cdr (cdr (cdr (cdr answer))))))
+
+;descripción: Función que permite obtener el autor de una respuesta
+;dom: respuesta
+;rec: string (author)
+
+(define (getAnswerUser answer) (car (cdr (cdr (cdr (cdr (cdr answer)))))))
+
+;descripción: Función que permite obtener el id de pregunta asociado a una respuesta
+;dom: respuesta
+;rec: integer (id de pregunta en la respuesta)
+
+(define (getAnswerQuestionId answer) (car (cdr (cdr (cdr (cdr (cdr (cdr answer))))))))
+
+;descripción: Función que permite obtener la fecha de publicación de una respuesta
+;dom: respuesta
+;rec: date (fecha de publicación)
+
+(define (getAnswerPublicationDate answer) (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr answer)))))))))
+
+
+;descripción: Función que permite obtener el contenido de una respuesta
+;dom: respuesta
+;rec: string (conteniddo)
+
+(define (getAnswerContent answer) (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr answer))))))))))
+
+;descripción: Función que permite obtener el contenido de una respuesta
+;dom: respuesta
+;rec: string (conteniddo)
+
+(define (getAnswerLabels answer) (cadr (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr answer))))))))))
+
+;descripción: Función que permite obtener una respuesta de una lista de respuestas filtrando por id
+;dom: lista de respuesta X integer (id respuesta)
+;rec: respuesta
+
+(define (getAnswerById answers answerId)
+  (filter (lambda (a) (= (car a) answerId)) answers))
 
 
 ; MODIFICADORES
@@ -49,6 +112,23 @@
     (if (null? answers)
         (list (answerList (setAnswerId answers) votes votes status offenseReports author questionId date content labels))
         (cons (answerList (setAnswerId answers) votes votes status offenseReports author questionId date content labels) answers))))
+
+
+;descripción: Función que permita modificar estado de una respuesta
+;dom: answer X string (nuevo status)
+;rec: answer actualizada
+
+(define (setAnswerStatus answer newStatus)
+  (answerList (getAnswerId (car answer))
+              (getAnswerUpVotes (car answer))
+              (getAnswerDownVotes (car answer))
+              newStatus
+              (getAnswerOffenseReports (car answer))
+              (getAnswerUser (car answer))
+              (getAnswerQuestionId (car answer))
+              (getAnswerPublicationDate (car answer))
+              (getAnswerContent (car answer))
+              (getAnswerLabels (car answer))))
 
 ;descripción: Función currificada que permite a un usuario con sesión
 ;             iniciada realizar una nueva respuesta a una pregunta específica.

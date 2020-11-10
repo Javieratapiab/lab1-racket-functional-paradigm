@@ -1,9 +1,13 @@
 #lang racket
 
-(provide questionList)
-(provide getQuestionId)
-(provide getQuestions)
+(require "utils.rkt") 
+
 (provide ask)
+(provide questionList)
+(provide getQuestions)
+(provide getQuestionUser)
+(provide getQuestionById)
+(provide setQuestionStatus)
 
 ; CONSTRUCTOR
 ;-------------------------------------------------------------------------
@@ -22,7 +26,59 @@
 ;dom: question
 ;rec: integer (id)
 
-(define getQuestionId car)
+(define (getQuestionId question) (car question))
+
+;descripción: Función que permite obtener votos positivos de una pregunta
+;dom: question
+;rec: integer (votos positivos)
+
+(define (getQuestionUpVotes question) (caddr question))
+
+;descripción: Función que permite obtener votos negativos de una pregunta
+;dom: question
+;rec: integer (votos negativos)
+
+(define (getQuestionDownVotes question) (cadddr question))
+
+;descripción: Función que permite obtener visualizaciones de una pregunta
+;dom: question
+;rec: integer (visualizaciones)
+
+(define (getQuestionViews question) (car (cdr (cdr (cdr (cdr question))))))
+
+
+;descripción: Función que permite obtener el título de una pregunta
+;dom: question
+;rec: string (título)
+
+(define (getQuestionTitle question) (car (cdr (cdr (cdr (cdr (cdr question)))))))
+
+
+;descripción: Función que permite obtener la fecha de la última modificación
+;dom: question
+;rec: date
+
+(define (getQuestionLastActivity question) (car (cdr (cdr (cdr (cdr (cdr (cdr question))))))))
+
+;descripción: Función que permite obtener el autor de una pregunta
+;dom: question
+;rec: string (author)
+(define (getQuestionUser question) (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr question)))))))))
+
+;descripción: Función que permite obtener la fecha de publicación de una pregunta
+;dom: question
+;rec: date
+(define (getQuestionPublicationDate question) (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr question))))))))))
+
+;descripción: Función que permite obtener el contenido de una pregunta
+;dom: question
+;rec: string (content)
+(define (getQuestionContent question) (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr question)))))))))))
+
+;descripción: Función que permite obtener el contenido de una pregunta
+;dom: question
+;rec: string (content)
+(define (getQuestionLabels question) (cadr (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr (cdr question)))))))))))
 
 ;descripción: Función que permite obtener la lista de preguntas dentro de una lista (stack)
 ;dom: stack
@@ -30,6 +86,12 @@
 
 (define (getQuestions stack)(cadr (cdr stack)))
 
+;descripción: Función que permite obtener una pregunta de una lista de preguntas por su id
+;dom: lista (questions) X (integer) questionId
+;rec: lista (questions)
+
+(define (getQuestionById questions questionId)
+   (filter (lambda (q) (eq? questionId (getQuestionId q))) questions))
 
 ; MODIFICADORES
 ;-------------------------------------------------------------------------
@@ -57,6 +119,24 @@
         (list (questionList (setQuestionId (getQuestions stack)) status votes votes views title lastActivity author date content labels))
         (cons (questionList (setQuestionId (getQuestions stack)) status votes votes views title lastActivity author date content labels)
               (getQuestions stack)))))
+
+
+;descripción: Función que permita modificar estado de una pregunta
+;dom: question X string (nuevo status)
+;rec: question actualizada
+
+(define (setQuestionStatus question newStatus)
+  (questionList (getQuestionId (car question))
+                newStatus
+                (getQuestionUpVotes (car question))
+                (getQuestionDownVotes (car question))
+                (getQuestionViews (car question))
+                (getQuestionTitle (car question))
+                (getQuestionLastActivity (car question))
+                (getQuestionUser (car question))
+                (getQuestionPublicationDate (car question))
+                (getQuestionContent (car question))
+                (getQuestionLabels (car question))))
 
 ;descripción: Función currificada que permite a un usuario con sesión
 ;             iniciada realizar una nueva pregunta.
