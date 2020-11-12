@@ -15,7 +15,7 @@ Se presenta proyecto semestral de laboratorio de la asignatura **"Paradigmas de 
 
 ## Estructura de directorios
 
-![estructura-directorios](estructura-directorios.png "Estructura de directorios")
+![estructura-directorios](estructura-directorios.png "Estructura de directorios" )
 
 ## Construcción de TDAs
 
