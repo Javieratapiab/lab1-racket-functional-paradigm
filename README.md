@@ -13,6 +13,9 @@ Se presenta proyecto semestral de laboratorio de la asignatura **"Paradigmas de 
 
 - Entorno: DrRacket v7.8 (https://download.racket-lang.org/)
 
+## Estructura de directorios
+
+![estructura-directorios](estructura-directorios.png "Estructura de directorios")
 
 ## Construcción de TDAs
 
@@ -28,7 +31,7 @@ Se presenta proyecto semestral de laboratorio de la asignatura **"Paradigmas de 
 ## Instrucciones de uso
 
 - Instalación de DrRacket (https://download.racket-lang.org/) en máquina local.
-- Correr la aplicación y abrir archivo `main.rkt`, donde se ubican los casos pruebas.
+- Correr la aplicación y abrir archivo `lab_git_18005106_TapiaBobadilla_main.rkt`, donde se ubican los casos pruebas.
 - Clickear en botón `RUN`, esquina superior derecha del IDE.
 
   
