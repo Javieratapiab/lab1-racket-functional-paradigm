@@ -7,6 +7,9 @@
 (provide setReward)
 (provide findRewardByUser)
 (provide removeRewards)
+(provide getRewardUser)
+(provide getRewardQuestionId)
+(provide getRewardQuantity)
 
 ;CONSTRUCTOR
 ;-------------------------------------------------------------------------
@@ -31,7 +34,7 @@
 ;dom: reward
 ;rec: string (autor)
 
-(define getRewardUser car)
+(define (getRewardUser reward) (car reward))
 
 ;descripción: Función que obtiene el id de pregunta de la recompensa
 ;dom: reward
@@ -42,8 +45,8 @@
 ;descripción: Función que obtiene la cantidad de recompensa ofrecida
 ;dom: reward
 ;rec: integer (rewardQuantity)
-(define getRewardQuantity cadddr)
 
+(define (getRewardQuantity reward) (caddr reward))
 
 ;descripción: Función que obtiene un reward del stack
 ;             filtrando por autor, id de pregunta y id de respuesta.

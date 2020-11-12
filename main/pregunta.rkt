@@ -1,6 +1,6 @@
 #lang racket
 
-(require "utils.rkt") 
+(require "fecha.rkt")
 
 (provide ask)
 (provide questionList)
@@ -8,6 +8,19 @@
 (provide getQuestionUser)
 (provide getQuestionById)
 (provide setQuestionStatus)
+(provide getQuestionId)
+(provide getQuestionStatus)
+(provide getQuestionUpVotes)
+(provide getQuestionDownVotes)
+(provide getQuestionViews)
+(provide getQuestionTitle)
+(provide getQuestionLastActivity)
+(provide getQuestionUser)
+(provide getQuestionPublicationDate)
+(provide getQuestionContent)
+(provide getQuestionLabels)
+
+; Implementación del TDA Pregunta
 
 ; CONSTRUCTOR
 ;-------------------------------------------------------------------------
@@ -28,6 +41,11 @@
 
 (define (getQuestionId question) (car question))
 
+;descripción: Función que permite obtener estado de una pregunta
+;dom: question
+;rec: string (estado)
+(define (getQuestionStatus question) (cadr question))
+
 ;descripción: Función que permite obtener votos positivos de una pregunta
 ;dom: question
 ;rec: integer (votos positivos)
@@ -46,13 +64,11 @@
 
 (define (getQuestionViews question) (car (cdr (cdr (cdr (cdr question))))))
 
-
 ;descripción: Función que permite obtener el título de una pregunta
 ;dom: question
 ;rec: string (título)
 
 (define (getQuestionTitle question) (car (cdr (cdr (cdr (cdr (cdr question)))))))
-
 
 ;descripción: Función que permite obtener la fecha de la última modificación
 ;dom: question
@@ -92,6 +108,7 @@
 
 (define (getQuestionById questions questionId)
    (filter (lambda (q) (eq? questionId (getQuestionId q))) questions))
+
 
 ; MODIFICADORES
 ;-------------------------------------------------------------------------

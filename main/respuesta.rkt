@@ -2,8 +2,18 @@
 
 (provide answer)
 (provide getAnswerById)
+(provide getAnswerId)
+(provide getAnswerUpVotes)
+(provide getAnswerDownVotes)
+(provide getAnswerStatus)
+(provide getAnswerOffenseReports)
 (provide getAnswerUser)
+(provide getAnswerQuestionId)
+(provide getAnswerPublicationDate)
+(provide getAnswerContent)
+(provide getAnswerLabels)
 (provide setAnswerStatus)
+(provide setAnswerId)
 
 ; CONSTRUCTOR
 ;-------------------------------------------------------------------------
@@ -22,7 +32,7 @@
 ;dom: respuesta
 ;rec: integer (id)
 
-(define getAnswerId car)
+(define (getAnswerId answer) (car answer))
 
 ;descripción: Función que permite obtener votos positivos de una respuesta
 ;dom: respuesta
@@ -40,7 +50,7 @@
 ;dom: respuesta
 ;rec: string (estado de aceptación)
 
-(define (getAnswerStatus answer) (car (cdr (cdr (cdr (cdr answer))))))
+(define (getAnswerStatus answer) (car (cdr (cdr (cdr answer)))))
 
 ;descripción: Función que permite obtener reportes de ofensa de una respuesta
 ;dom: respuesta
@@ -65,7 +75,6 @@
 ;rec: date (fecha de publicación)
 
 (define (getAnswerPublicationDate answer) (car (cdr (cdr (cdr (cdr (cdr (cdr (cdr answer)))))))))
-
 
 ;descripción: Función que permite obtener el contenido de una respuesta
 ;dom: respuesta
@@ -112,7 +121,6 @@
     (if (null? answers)
         (list (answerList (setAnswerId answers) votes votes status offenseReports author questionId date content labels))
         (cons (answerList (setAnswerId answers) votes votes status offenseReports author questionId date content labels) answers))))
-
 
 ;descripción: Función que permita modificar estado de una respuesta
 ;dom: answer X string (nuevo status)

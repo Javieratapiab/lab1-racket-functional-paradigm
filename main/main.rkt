@@ -4,7 +4,7 @@
 (require "usuario.rkt")
 (require "pregunta.rkt")
 (require "respuesta.rkt")
-(require "utils.rkt")
+(require "fecha.rkt")
 
 ;-------------------------------------------------------------------------
 ; CASOS DE PRUEBA
@@ -31,7 +31,7 @@ stackOverflow1
 stackOverflow2
 
 ; Descripción: Registro de usuario no existoso, usuario ya registrado (validación por username)
-(display "* Caso específico: usuario sin poder registrarse (validación de username) \n")
+(display "* Caso específico: Usuario sin poder registrarse (validación de username) \n")
 (display "4)")
 stackOverflow3
 
@@ -71,10 +71,10 @@ stackOverflow3
 (force validAsk2)
 (display "3)")
 (force validAsk3)
-(display "* Caso específico: creación de pregunta sin usuario logueado (retorna stack) \n")
+(display "* Caso específico: Creación de pregunta sin usuario logueado (retorna stack) \n")
 (display "4)")
 (force invalidAsk)
-(display "* Extra: creación de multiples preguntas conservando stack \n")
+(display "* Extra: Creación de multiples preguntas conservando stack \n")
 (display "5)")
 (force multipleAsk1)
 
@@ -111,10 +111,10 @@ stackOverflow3
 (force validReward2)
 (display "3)")
 (force validReward3)
-(display "* Caso específico: recompensa excede reputación de usuario (retorna stack) \n")
+(display "* Caso específico: Recompensa excede reputación de usuario (retorna stack) \n")
 (display "4)")
 (force invalidReward)
-(display "* Extra: creación de multiples recompensas conservando stack \n")
+(display "* Extra: Creación de multiples recompensas conservando stack \n")
 (display "5)")
 (force multipleReward)
 
@@ -151,10 +151,10 @@ stackOverflow3
 (force validAnswer2)
 (display "3)")
 (force validAnswer3)
-(display "* Caso específico: creación de respuesta inválido con una pregunta inexistente (retorna stack) \n")
+(display "* Caso específico: Creación de respuesta inválido con una pregunta inexistente (retorna stack) \n")
 (display "4)")
 (force invalidAnswer)
-(display "* Extra: creación de multiples respuestas conservando stack \n")
+(display "* Extra: Creación de multiples respuestas conservando stack \n")
 (display "5)")
 (force multipleAnswer1)
 
@@ -172,7 +172,7 @@ stackOverflow3
 (force validAccept1)
 (display "2)")
 (force validAccept2)
-(display "* Caso específico: usuario intenta aceptar pregunta que no lo pertence. Retorna stack \n")
+(display "* Caso específico: Usuario intenta aceptar pregunta que no lo pertence. Retorna stack \n")
 (display "3)")
 (force invalidAccept)
 
@@ -180,6 +180,17 @@ stackOverflow3
 ; 6. STACK->STRING
 ;-------------------------------------------------------------------------
 (display "\n******* STACK->STRING ********\n")
-(define stackToString (login (force multipleAnswer2) "Jeff Bezos" "pas$$" stack->string))
 
-(force stackToString)
+; Descripción: Función stack->string que da formato string a stack
+
+(display "1)")
+(display (stack->string (force validAccept1)))
+(display "2)")
+(display (stack->string (force validAccept2)))
+(display "* Caso específico: Antecedentes de usuario logueado. \n")
+(display (login (force validAnswer3) "Dan abramov" "123454321" stack->string))
+
+
+; 7. SEARCH
+;-------------------------------------------------------------------------
+(display "\n******* SEARCH ********\n")
