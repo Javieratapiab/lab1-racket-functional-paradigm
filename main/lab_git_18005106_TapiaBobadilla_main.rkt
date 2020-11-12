@@ -1,10 +1,10 @@
 #lang racket
 
-(require "stack.rkt")
-(require "usuario.rkt")
-(require "pregunta.rkt")
-(require "respuesta.rkt")
-(require "fecha.rkt")
+(require "lab_git_18005106_TapiaBobadilla_stack.rkt")
+(require "lab_git_18005106_TapiaBobadilla_usuario.rkt")
+(require "lab_git_18005106_TapiaBobadilla_pregunta.rkt")
+(require "lab_git_18005106_TapiaBobadilla_respuesta.rkt")
+(require "lab_git_18005106_TapiaBobadilla_fecha.rkt")
 
 ;-------------------------------------------------------------------------
 ; CASOS DE PRUEBA

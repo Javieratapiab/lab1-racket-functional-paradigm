@@ -145,7 +145,6 @@
 ;tipo de recursión: cola
 ;rec: string (answers)
 
-
 (define (formatAnswersWrapper answers)
   (define (formatAnswers answers result)
     (if (null? answers)
