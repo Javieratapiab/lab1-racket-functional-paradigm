@@ -13,10 +13,6 @@ Se presenta proyecto semestral de laboratorio de la asignatura **"Paradigmas de 
 
 - Entorno: DrRacket v7.8 (https://download.racket-lang.org/)
 
-## Estructura de directorios
-
-![estructura-directorios](estructura-directorios.jpg "Estructura de directorios" )
-
 ## Construcción de TDAs
 
 | Abstracción         	| Contexto                                                                                                                                                     	| Características (Qué)                                                                                                                                                                                                                                                                                                                                                                                                                	|
