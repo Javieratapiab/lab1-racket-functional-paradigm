@@ -1,4 +1,4 @@
-# Laboratorio paradigmas: Stackoverflow
+# Laboratorio paradigmas: [Stackoverflow](https://stackoverflow.com/)
 
 Se presenta proyecto semestral de laboratorio de la asignatura **"Paradigmas de programación"** de la Universidad Santiago de Chile, que consta en la creación de un clon de la aplicación Stackoverflow en el lenguaje Scheme, que consolida los conocimientos del paradigma funcional.
 
