@@ -6,6 +6,7 @@
 (require "lab_git_18005106_TapiaBobadilla_reward.rkt")
 (require "lab_git_18005106_TapiaBobadilla_utils.rkt")
 (require "lab_git_18005106_TapiaBobadilla_fecha.rkt")
+(require "lab_git_18005106_TapiaBobadilla_search.rkt")
 
 (provide stackList)
 (provide register)
@@ -98,8 +99,8 @@
     (if (null? users)
         result
         (formatUsers (cdr users)(string-append result "- Username: " (car (car users)) "\n"
-                                               "- Password: " (cadr (car users)) "\n"))))
-  (formatUsers users "--- Usuarios registrados --- \n"))
+                                                      "- Password: " (cadr (car users)) "\n"))))
+  (formatUsers users "--- Usuarios --- \n"))
 
 ;descripción: Función que da formato a preguntas en la lista stack
 ;dom: questions
@@ -173,8 +174,8 @@
                                   [rewards (getRewards (cdr stack))]
                                   [answers (getAnswers (cdr stack))])
                               (string-append "*** Información Usuario logueado: " (car stack) " *** \n"
+                                             (formatUsersWrapper (filter (lambda (u) (eq? (car stack) (car u))) users))
                                              (formatQuestionsWrapper questions)
-                                             (formatRewardsWrapper rewards)
                                              (formatAnswersWrapper answers)))
                             (let ([users (getUsers stack)]
                                   [questions (getQuestions stack)]

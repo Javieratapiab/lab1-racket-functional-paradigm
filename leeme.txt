@@ -1,0 +1,11 @@
+## Características
+
+- Paradigma: Funcional
+- Lenguage: Scheme (https://groups.csail.mit.edu/mac/projects/scheme/)
+- Entorno: DrRacket v7.8 (https://download.racket-lang.org/)
+
+## Instrucciones de uso
+
+- Instalación de DrRacket (https://download.racket-lang.org/) en máquina local.
+- Correr la aplicación y abrir archivo `lab_git_18005106_TapiaBobadilla_main.rkt`, donde se ubican los casos pruebas.
+- Clickear en botón `RUN`, esquina superior derecha del IDE.

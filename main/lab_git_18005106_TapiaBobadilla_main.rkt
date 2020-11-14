@@ -5,6 +5,7 @@
 (require "lab_git_18005106_TapiaBobadilla_pregunta.rkt")
 (require "lab_git_18005106_TapiaBobadilla_respuesta.rkt")
 (require "lab_git_18005106_TapiaBobadilla_fecha.rkt")
+(require "lab_git_18005106_TapiaBobadilla_search.rkt")
 
 ;-------------------------------------------------------------------------
 ; CASOS DE PRUEBA
@@ -139,11 +140,11 @@ stackOverflow3
                                 (date 13 10 2020)) 2) "Scope in JavaScript refers to the current context of code" "javascript")))
 
 (define multipleAnswer2 (lazy ((((login (force validAnswer2) "Dan abramov" "123454321" answer)
-                                (date 13 10 2020)) 2) "Scope in JavaScript refers to the current context of code" "javascript")))
+                                (date 13 10 2020)) 2) "Scope in JavaScript refers to the current context of code" "computer science" "javascript")))
 
 ; Descripción: Creación de respuesta inválido con una pregunta inexistente (retorna stack)
 (define invalidAnswer (lazy ((((login (force multipleAnswer2) "Dan abramov" "123454321" answer)
-                               (date 16 12 2020)) 18) "Default behavior of moving all declarations to the top of the current scope" "javascript")))
+                               (date 16 12 2020)) 18) "The scope is an important concept that manages the availability of variables." "javascript")))
 
 (display "1)")
 (force validAnswer1)
@@ -182,15 +183,32 @@ stackOverflow3
 (display "\n******* STACK->STRING ********\n")
 
 ; Descripción: Función stack->string que da formato string a stack
+(define stackString1 (lazy (stack->string (force validAccept1))))
+(define stackString2 (lazy (stack->string (force validAccept2))))
+(define stackStringLogin (lazy (login (force validAnswer3) "Dan abramov" "123454321" stack->string)))
 
-(display "1)")
-(display (stack->string (force validAccept1)))
-(display "2)")
-(display (stack->string (force validAccept2)))
+(display "1)\n")
+(display (force stackString1))
+(display "2)\n")
+(display (force stackString2))
+(display "3)\n")
 (display "* Caso específico: Antecedentes de usuario logueado. \n")
-(display (login (force validAnswer3) "Dan abramov" "123454321" stack->string))
+(display (force stackStringLogin))
 
 
 ; 7. SEARCH
 ;-------------------------------------------------------------------------
 (display "\n******* SEARCH ********\n")
+
+; Descripción: Función search que realiza una búsqueda en base a una coincidencia parcial de texto
+
+(define search1 (lazy (((search (force validAccept1)) all) "javascript")))
+(define search2 (lazy (((search (force validAccept2)) labels) "computer science")))
+(define searchLogin (lazy (((login (force validAccept2) "Dan abramov" "123454321" search) all) "current")))
+
+(display "1) Búsqueda en preguntas, respuestas y etiquetas por la palabra 'javascript' \n")
+(force search1)
+(display "2) Búsqueda en etiquetas por la palabra 'computer science' \n")
+(force search2)
+(display "3) Búsqueda en preguntas, respuestas y etiquetas por la palabra 'current' con login \n")
+(force searchLogin)

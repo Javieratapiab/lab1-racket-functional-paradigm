@@ -8,11 +8,13 @@ Según escala:
 
 AUTOEVALUCIÓN:
 
+Requerimientos funcionales y no funcionales
+
 Register: 1
 Login: 1
 Ask: 1
 Reward: 1
 Answer: 1
-Accept: 0.75
+Accept: 1
 Stack -> string: 1
 Search: 1
