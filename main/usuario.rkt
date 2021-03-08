@@ -1,8 +1,8 @@
 #lang racket
 
-(require "lab_git_18005106_TapiaBobadilla_pregunta.rkt")
-(require "lab_git_18005106_TapiaBobadilla_respuesta.rkt")
-(require "lab_git_18005106_TapiaBobadilla_reward.rkt")
+(require "pregunta.rkt")
+(require "respuesta.rkt")
+(require "reward.rkt")
 
 (provide user)
 (provide getName)
