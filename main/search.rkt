@@ -4,8 +4,8 @@
 (provide labels)
 (provide all)
 
-(require "lab_git_18005106_TapiaBobadilla_pregunta.rkt")
-(require "lab_git_18005106_TapiaBobadilla_respuesta.rkt")
+(require "pregunta.rkt")
+(require "respuesta.rkt")
 
 ;descripción: Función que permite obtener preguntas y respuestas filtrando por substring en su contenido y etiquetas
 ;dom: lista (preguntas) X lista (respuestas) X string (texto a buscar)
