@@ -1,12 +1,12 @@
 #lang racket
 
-(require "lab_git_18005106_TapiaBobadilla_usuario.rkt")
-(require "lab_git_18005106_TapiaBobadilla_pregunta.rkt")
-(require "lab_git_18005106_TapiaBobadilla_respuesta.rkt")
-(require "lab_git_18005106_TapiaBobadilla_reward.rkt")
-(require "lab_git_18005106_TapiaBobadilla_utils.rkt")
-(require "lab_git_18005106_TapiaBobadilla_fecha.rkt")
-(require "lab_git_18005106_TapiaBobadilla_search.rkt")
+(require "usuario.rkt")
+(require "pregunta.rkt")
+(require "respuesta.rkt")
+(require "reward.rkt")
+(require "utils.rkt")
+(require "fecha.rkt")
+(require "search.rkt")
 
 (provide stackList)
 (provide register)
